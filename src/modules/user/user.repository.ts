@@ -50,6 +50,7 @@ export const userRepository = {
                 id: users.id,
                 name: users.name,
                 email: users.email,
+                password: users.password,
                 createdAt: users.createdAt,
                 updatedAt: users.updatedAt,
             })
