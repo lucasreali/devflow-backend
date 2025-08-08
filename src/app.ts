@@ -8,6 +8,7 @@ import {
     validatorCompiler,
     ZodTypeProvider,
 } from 'fastify-type-provider-zod';
+import { errorHandler } from './core/middleware/errorHandler';
 import { routes } from './routes';
 
 export const build = () => {
@@ -15,6 +16,8 @@ export const build = () => {
 
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);
+
+    app.setErrorHandler(errorHandler);
 
     app.register(fastifyCors, { origin: '*' });
 
