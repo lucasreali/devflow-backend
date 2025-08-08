@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 import { randomUUID } from 'node:crypto';
 import { ConflictError } from '../../core/errors/ConflictError';
 import { NotFoundError } from '../../core/errors/NotFoundError';
-import { userRequestStatic } from './user.dto';
+import { userRequestStatic, userUpdateRequestStatic } from './user.dto';
 import { userRepository } from './user.repository';
 
 export const userService = {
@@ -27,7 +27,13 @@ export const userService = {
         if (!user) {
             throw new NotFoundError('User not found');
         }
-        return user;
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        };
     },
 
     async findAll() {
@@ -40,5 +46,21 @@ export const userService = {
             throw new NotFoundError('User not found');
         }
         return result[0];
+    },
+
+    async update(id: string, data: userUpdateRequestStatic) {
+        const toUpdate: userUpdateRequestStatic = {};
+
+        if (data.name !== undefined) toUpdate.name = data.name;
+        if (data.email !== undefined) toUpdate.email = data.email;
+        if (data.password !== undefined) {
+            toUpdate.password = await hash(data.password, 10);
+        }
+
+        const [result] = await userRepository.update(id, toUpdate);
+        if (!result) {
+            throw new NotFoundError('User not found');
+        }
+        return result;
     },
 };

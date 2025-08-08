@@ -18,8 +18,12 @@ export const userResponse = z.object({
     updatedAt: z.date(),
 });
 
+export const userUpdateRequest = userRequest.partial();
+
 export const listUserResponse = z.array(userResponse);
+
 export type userRequestStatic = z.infer<typeof userRequest>;
 export type userResponseStatic = z.infer<typeof userResponse>;
 export type userParmsStatic = z.infer<typeof userParms>;
 export type listUserResponseStatic = z.infer<typeof listUserResponse>;
+export type userUpdateRequestStatic = z.infer<typeof userUpdateRequest>;

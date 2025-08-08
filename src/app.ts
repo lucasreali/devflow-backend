@@ -19,6 +19,7 @@ export const build = () => {
 
     app.register(fastifyCors, { origin: '*' });
 
+    // plugins
     app.register(swagger);
 
     app.register(routes, {

@@ -1,25 +1,17 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../../core/database/db';
 import { users } from '../../core/database/schema';
-import { userRequestStatic } from './user.dto';
+import { userRequestStatic, userUpdateRequestStatic } from './user.dto';
 
 export const userRepository = {
     async create(user: { id: string } & userRequestStatic) {
-        return await db
-            .insert(users)
-            .values({
-                name: user.name,
-                email: user.email,
-                id: user.id,
-                password: user.password,
-            })
-            .returning({
-                id: users.id,
-                name: users.name,
-                email: users.email,
-                createdAt: users.createdAt,
-                updatedAt: users.updatedAt,
-            });
+        return await db.insert(users).values(user).returning({
+            id: users.id,
+            name: users.name,
+            email: users.email,
+            createdAt: users.createdAt,
+            updatedAt: users.updatedAt,
+        });
     },
 
     async findById(id: string) {
@@ -28,6 +20,7 @@ export const userRepository = {
                 id: users.id,
                 name: users.name,
                 email: users.email,
+                password: users.password,
                 createdAt: users.createdAt,
                 updatedAt: users.updatedAt,
             })
@@ -62,5 +55,19 @@ export const userRepository = {
             })
             .from(users)
             .where(eq(users.email, email));
+    },
+
+    async update(id: string, data: userUpdateRequestStatic) {
+        return await db
+            .update(users)
+            .set(data)
+            .where(eq(users.id, id))
+            .returning({
+                id: users.id,
+                name: users.name,
+                email: users.email,
+                createdAt: users.createdAt,
+                updatedAt: users.updatedAt,
+            });
     },
 };
