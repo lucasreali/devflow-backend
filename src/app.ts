@@ -5,7 +5,7 @@ import {
     validatorCompiler,
     ZodTypeProvider,
 } from 'fastify-type-provider-zod';
-import { errorHandler } from './core/middleware/errorHandler';
+import { errorHandler } from './core/middleware/error-andler';
 import swagger from './plugins/swagger';
 import { routes } from './routes';
 

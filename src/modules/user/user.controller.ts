@@ -1,7 +1,7 @@
 import {
     errorResponseSchema,
     successSchema,
-} from '../../core/schemas/responseSchemas';
+} from '../../core/schemas/response-schemas';
 import { FastifyTypeInstance } from '../../types';
 import {
     listUserResponse,
