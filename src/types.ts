@@ -1,14 +1,13 @@
+import 'fastify';
 import {
     FastifyBaseLogger,
     FastifyInstance,
-    FastifyReply,
-    FastifyRequest,
     RawReplyDefaultExpression,
     RawRequestDefaultExpression,
     RawServerDefault,
 } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import z from 'zod';
+import { jwtPayloadStatic } from './modules/auth/auth.dto';
 
 export type FastifyTypeInstance = FastifyInstance<
     RawServerDefault,
@@ -17,3 +16,9 @@ export type FastifyTypeInstance = FastifyInstance<
     FastifyBaseLogger,
     ZodTypeProvider
 >;
+
+declare module 'fastify' {
+    interface FastifyRequest {
+        user?: jwtPayloadStatic;
+    }
+}

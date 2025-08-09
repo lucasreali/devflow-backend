@@ -8,6 +8,15 @@ export default fp(async (app: FastifyTypeInstance) => {
     app.register(fastifySwagger, {
         openapi: {
             info: { title: 'DevFlow', version: '0.0.1' },
+            components: {
+                securitySchemes: {
+                    BearerAuth: {
+                        type: 'http',
+                        scheme: 'bearer',
+                        bearerFormat: 'JWT',
+                    },
+                },
+            },
         },
         transform: jsonSchemaTransform,
     });
