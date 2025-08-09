@@ -5,12 +5,14 @@ import {
     validatorCompiler,
     ZodTypeProvider,
 } from 'fastify-type-provider-zod';
-import { errorHandler } from './core/middleware/error-andler';
-import swagger from './plugins/swagger';
+import { errorHandler } from './core/middleware/error-handler';
+import { swagger } from './plugins/swagger';
 import { routes } from './routes';
 
 export const build = () => {
-    const app = fastify().withTypeProvider<ZodTypeProvider>();
+    const app = fastify({
+        logger: process.env.NODE_ENV !== 'test',
+    }).withTypeProvider<ZodTypeProvider>();
 
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);

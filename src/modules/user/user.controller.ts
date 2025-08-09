@@ -1,6 +1,6 @@
 import {
     errorResponseSchema,
-    successSchema,
+    successResponseSchema,
 } from '../../core/schemas/response-schemas';
 import { FastifyTypeInstance } from '../../types';
 import {
@@ -42,6 +42,7 @@ export const userController = (app: FastifyTypeInstance) => {
                 response: {
                     200: userResponse,
                     404: errorResponseSchema,
+                    422: errorResponseSchema,
                 },
             },
         },
@@ -78,6 +79,7 @@ export const userController = (app: FastifyTypeInstance) => {
                 response: {
                     200: userResponse,
                     404: errorResponseSchema,
+                    422: errorResponseSchema,
                 },
             },
         },
@@ -97,8 +99,9 @@ export const userController = (app: FastifyTypeInstance) => {
                 description: 'Delete',
                 params: userParms,
                 response: {
-                    200: successSchema,
+                    200: successResponseSchema,
                     404: errorResponseSchema,
+                    422: errorResponseSchema,
                 },
             },
         },

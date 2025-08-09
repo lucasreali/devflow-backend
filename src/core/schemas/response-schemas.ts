@@ -4,7 +4,6 @@ export const errorResponseSchema = z.object({
     message: z.string(),
 });
 
-export const successSchema = z.object({
+export const successResponseSchema = z.object({
     message: z.string(),
-})
-
+});
