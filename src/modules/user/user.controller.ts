@@ -83,11 +83,9 @@ export const userController = (app: FastifyTypeInstance) => {
         },
         async (req, rep) => {
             const { id } = req.params;
-            const user = req.body
+            const user = req.body;
             const newUser = await userService.update(id, user);
-            return rep
-                .status(200)
-                .send(newUser);
+            return rep.status(200).send(newUser);
         }
     );
 
