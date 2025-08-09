@@ -1,4 +1,3 @@
-import { FastifyInstance } from 'fastify';
 import { randomUUID } from 'node:crypto';
 import {
     afterAll,
@@ -12,10 +11,11 @@ import {
 import { build } from '../../../app';
 import { db } from '../../../core/database/db';
 import { users } from '../../../core/database/schema';
+import { FastifyTypeInstance } from '../../../types';
 import { userData } from '../../factories/user.factory';
 
 describe('Get User by id', () => {
-    let app: FastifyInstance;
+    let app: FastifyTypeInstance;
 
     beforeAll(async () => {
         app = build();
@@ -33,7 +33,7 @@ describe('Get User by id', () => {
         await app.close();
     });
 
-    it('201 - should return the user by id', async () => {
+    it('200 - should return the user by id', async () => {
         const data = userData();
 
         const createRes = await app.inject({

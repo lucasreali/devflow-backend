@@ -1,12 +1,12 @@
-import { FastifyInstance } from 'fastify';
 import { afterAll, afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { build } from '../../../app';
 import { db } from '../../../core/database/db';
 import { users } from '../../../core/database/schema';
+import { FastifyTypeInstance } from '../../../types';
 import { userData } from '../../factories/user.factory';
 
 describe('Create User', () => {
-    let app: FastifyInstance;
+    let app: FastifyTypeInstance;
 
     beforeEach(async () => {
         app = build();
@@ -71,7 +71,7 @@ describe('Create User', () => {
             url: '/api/users',
             payload: data,
         });
-        
+
         expect(res.statusCode).toBe(422);
         const body = JSON.parse(res.payload);
         expect(body.message).toBe('Validation failed');
