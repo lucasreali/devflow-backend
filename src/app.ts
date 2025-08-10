@@ -11,7 +11,7 @@ import { routes } from './routes';
 
 export const build = () => {
     const app = fastify({
-        logger: process.env.NODE_ENV !== 'test',
+        logger: process.env.NODE_ENV === 'test',
     }).withTypeProvider<ZodTypeProvider>();
 
     app.setValidatorCompiler(validatorCompiler);

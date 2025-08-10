@@ -11,6 +11,7 @@ export const authController = (app: FastifyTypeInstance) => {
                 body: authLoginRequest,
                 response: {
                     200: authLoginResponse,
+                    
                 },
             },
         },
