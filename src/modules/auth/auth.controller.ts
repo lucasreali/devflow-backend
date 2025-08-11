@@ -1,3 +1,4 @@
+import fastifyOauth2 from '@fastify/oauth2';
 import { FastifyTypeInstance } from '../../types';
 import { authLoginRequest, authLoginResponse } from './auth.dto';
 import { authService } from './auth.service';
@@ -11,7 +12,6 @@ export const authController = (app: FastifyTypeInstance) => {
                 body: authLoginRequest,
                 response: {
                     200: authLoginResponse,
-                    
                 },
             },
         },
@@ -21,4 +21,21 @@ export const authController = (app: FastifyTypeInstance) => {
             return rep.status(200).send(token);
         }
     );
+
+    app.get('/github/callback', async (req, rep) => {
+        const tokenResponse = await (
+            app as any
+        ).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
+        const accessToken: string | undefined =
+            tokenResponse?.token?.access_token;
+
+        if (!accessToken) {
+            return rep
+                .status(401)
+                .send({ message: 'GitHub authorization failed' });
+        }
+
+        const result = await authService.githubFromAccessToken(accessToken);
+        return rep.status(200).send(result);
+    });
 };

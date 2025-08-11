@@ -4,7 +4,7 @@ import { users } from '../../core/database/schema';
 import { userRequestStatic, userUpdateRequestStatic } from './user.dto';
 
 export const userRepository = {
-    async create(user: { id: string } & userRequestStatic) {
+    async create(user: userRequestStatic) {
         return await db.insert(users).values(user).returning({
             id: users.id,
             name: users.name,

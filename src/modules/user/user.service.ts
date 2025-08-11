@@ -1,5 +1,4 @@
 import { hash } from 'bcrypt';
-import { randomUUID } from 'node:crypto';
 import { ConflictError } from '../../core/errors/ConflictError';
 import { NotFoundError } from '../../core/errors/NotFoundError';
 import { userRequestStatic, userUpdateRequestStatic } from './user.dto';
@@ -13,7 +12,6 @@ export const userService = {
         const hashedPassword = await hash(user.password, 10);
 
         const [newUser] = await userRepository.create({
-            id: randomUUID(),
             name: user.name,
             email: user.email,
             password: hashedPassword,

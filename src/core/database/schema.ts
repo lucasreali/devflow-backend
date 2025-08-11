@@ -11,3 +11,19 @@ export const users = pgTable('users', {
         .$onUpdateFn(() => new Date())
         .notNull(),
 });
+
+export const accounts = pgTable('accounts', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' })
+        .unique(),
+    githubId: text('github_id').notNull().unique(),
+    login: text('login'),
+    avatarUrl: text('avatar_url'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+        .defaultNow()
+        .$onUpdateFn(() => new Date())
+        .notNull(),
+});

@@ -6,6 +6,7 @@ import {
     ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import { errorHandler } from './core/middleware/error-handler';
+import { githubOAuth } from './plugins/githubOauth';
 import { swagger } from './plugins/swagger';
 import { routes } from './routes';
 
@@ -23,6 +24,7 @@ export const build = () => {
 
     // plugins
     app.register(swagger);
+    app.register(githubOAuth);
 
     app.register(routes, {
         prefix: '/api',
