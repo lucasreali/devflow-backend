@@ -2,6 +2,8 @@ import fastifyOauth2 from '@fastify/oauth2';
 import { FastifyTypeInstance } from '../../types';
 import { authLoginRequest, authLoginResponse } from './auth.dto';
 import { authService } from './auth.service';
+import { authHandler } from '../../core/middleware/auth-handler';
+import { errorResponseSchema, successResponseSchema } from '../../core/schemas/response-schemas';
 
 export const authController = (app: FastifyTypeInstance) => {
     app.post(
@@ -38,4 +40,21 @@ export const authController = (app: FastifyTypeInstance) => {
         const result = await authService.githubFromAccessToken(accessToken);
         return rep.status(200).send(result);
     });
+
+    app.get(
+        '/verify',
+        {
+            preHandler: authHandler,
+            schema: {
+                security: [{ BearerAuth: [] }],
+                response: {
+                    200: successResponseSchema,
+                    401: errorResponseSchema,
+                },
+            },
+        },
+        async (req, rep) => {
+            return rep.status(200).send({ message: 'Valid token' });
+        }
+    );
 };
