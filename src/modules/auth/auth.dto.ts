@@ -13,7 +13,7 @@ export const jwtPayload = z.object({
     id: z.uuid(),
     email: z.email(),
     name: z.string(),
-    avatarUrl: z.string(),
+    avatarUrl: z.string().nullable(),
 });
 
 export type authLoginRequestStatic = z.infer<typeof authLoginRequest>;

@@ -23,12 +23,12 @@ export const authService = {
         }
 
         const [account] = await accountRepository.findByUserId(user.id);
-
+        
         const payload = {
             id: user.id,
             email: user.email,
             name: user.name,
-            avatarUrl: account.avatarUrl,
+            avatarUrl: account?.avatarUrl ?? null,
         } as jwtPayloadStatic;
 
         if (!this.secret) {
