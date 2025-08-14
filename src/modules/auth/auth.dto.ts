@@ -14,6 +14,7 @@ export const jwtPayload = z.object({
     email: z.email(),
     name: z.string(),
     avatarUrl: z.string().nullable(),
+    role: z.enum(['ADMIN', 'USER']),
 });
 
 export type authLoginRequestStatic = z.infer<typeof authLoginRequest>;

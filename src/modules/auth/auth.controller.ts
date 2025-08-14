@@ -1,9 +1,11 @@
-import fastifyOauth2 from '@fastify/oauth2';
+import { authHandler } from '../../core/middleware/auth-handler';
+import {
+    errorResponseSchema,
+    successResponseSchema,
+} from '../../core/schemas/response-schemas';
 import { FastifyTypeInstance } from '../../types';
 import { authLoginRequest, authLoginResponse } from './auth.dto';
 import { authService } from './auth.service';
-import { authHandler } from '../../core/middleware/auth-handler';
-import { errorResponseSchema, successResponseSchema } from '../../core/schemas/response-schemas';
 
 export const authController = (app: FastifyTypeInstance) => {
     app.post(
@@ -24,28 +26,37 @@ export const authController = (app: FastifyTypeInstance) => {
         }
     );
 
-    app.get('/github/callback', async (req, rep) => {
-        const tokenResponse = await (
-            app as any
-        ).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
-        const accessToken: string | undefined =
-            tokenResponse?.token?.access_token;
+    app.get(
+        '/github/callback',
+        {
+            schema: {
+                tags: ['auth'],
+            },
+        },
+        async (req, rep) => {
+            const tokenResponse = await (
+                app as any
+            ).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
+            const accessToken: string | undefined =
+                tokenResponse?.token?.access_token;
 
-        if (!accessToken) {
-            return rep
-                .status(401)
-                .send({ message: 'GitHub authorization failed' });
+            if (!accessToken) {
+                return rep
+                    .status(401)
+                    .send({ message: 'GitHub authorization failed' });
+            }
+
+            const result = await authService.githubFromAccessToken(accessToken);
+            return rep.status(200).send(result);
         }
-
-        const result = await authService.githubFromAccessToken(accessToken);
-        return rep.status(200).send(result);
-    });
+    );
 
     app.get(
         '/verify',
         {
             preHandler: authHandler,
             schema: {
+                tags: ['auth'],
                 security: [{ BearerAuth: [] }],
                 response: {
                     200: successResponseSchema,

@@ -28,6 +28,7 @@ export const authService = {
             id: user.id,
             email: user.email,
             name: user.name,
+            role: user.role,
             avatarUrl: account?.avatarUrl ?? null,
         } as jwtPayloadStatic;
 

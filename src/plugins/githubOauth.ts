@@ -15,5 +15,8 @@ export const githubOAuth = fp(async (app: FastifyTypeInstance) => {
         scope: ['read:user', 'user:email'],
         startRedirectPath: '/api/auth/github/login',
         callbackUri: process.env.GITHUB_REDIRECT_URI!,
+        schema: {
+            tags: ['auth'],
+        },
     });
 });

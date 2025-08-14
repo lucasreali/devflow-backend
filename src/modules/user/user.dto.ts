@@ -7,7 +7,7 @@ export const userRequest = z.object({
 });
 
 export const userParms = z.object({
-    id: z.uuid(),
+    userId: z.uuid(),
 });
 
 export const userResponse = z.object({
@@ -19,9 +19,7 @@ export const userResponse = z.object({
 });
 
 export const userUpdateRequest = userRequest.partial();
-
 export const listUserResponse = z.array(userResponse);
-
 export type userRequestStatic = z.infer<typeof userRequest>;
 export type userResponseStatic = z.infer<typeof userResponse>;
 export type userParmsStatic = z.infer<typeof userParms>;

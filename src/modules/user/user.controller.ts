@@ -1,3 +1,5 @@
+import { authHandler } from '../../core/middleware/auth-handler';
+import { permissionHandler } from '../../core/middleware/permission-handler';
 import {
     errorResponseSchema,
     successResponseSchema,
@@ -33,7 +35,7 @@ export const userController = (app: FastifyTypeInstance) => {
     );
 
     app.get(
-        '/users/:id',
+        '/users/:userId',
         {
             schema: {
                 tags: ['users'],
@@ -47,8 +49,8 @@ export const userController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { id } = req.params;
-            const user = await userService.findById(id);
+            const { userId } = req.params;
+            const user = await userService.findById(userId);
             return rep.status(200).send(user);
         }
     );
@@ -69,7 +71,7 @@ export const userController = (app: FastifyTypeInstance) => {
     );
 
     app.put(
-        '/users/:id',
+        '/users/:userId',
         {
             schema: {
                 tags: ['users'],
@@ -84,15 +86,15 @@ export const userController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { id } = req.params;
+            const { userId } = req.params;
             const user = req.body;
-            const newUser = await userService.update(id, user);
+            const newUser = await userService.update(userId, user);
             return rep.status(200).send(newUser);
         }
     );
 
     app.delete(
-        '/users/:id',
+        '/users/:userId',
         {
             schema: {
                 tags: ['users'],
@@ -106,8 +108,8 @@ export const userController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { id } = req.params;
-            await userService.delete(id);
+            const { userId } = req.params;
+            await userService.delete(userId);
             return rep
                 .status(200)
                 .send({ message: 'User deleted successfully' });

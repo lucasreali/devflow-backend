@@ -6,7 +6,7 @@ import { authService } from '../../../modules/auth/auth.service';
 import { FastifyTypeInstance } from '../../../types';
 import { userData } from '../../factories/user.factory';
 
-describe('Auth - Login', () => {
+describe('Login', () => {
     let app: FastifyTypeInstance;
 
     beforeEach(async () => {
