@@ -103,7 +103,6 @@ export const userController = (app: FastifyTypeInstance) => {
                 response: {
                     200: successResponseSchema,
                     404: errorResponseSchema,
-                    422: errorResponseSchema,
                 },
             },
         },
