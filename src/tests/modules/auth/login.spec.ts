@@ -10,10 +10,6 @@ describe('Login', () => {
     let app: FastifyTypeInstance;
 
     beforeEach(async () => {
-        // Garantir segredo JWT para geração/validação de token
-        process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
-        authService.secret = process.env.JWT_SECRET as unknown as any;
-
         app = build();
         await db.delete(users);
     });

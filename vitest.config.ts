@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
     test: {
+        env: {
+            NODE_ENV: '',
+        },
         globals: true,
         environment: 'node',
         pool: 'threads',

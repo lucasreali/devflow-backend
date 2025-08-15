@@ -20,6 +20,7 @@ export const projectController = (app: FastifyTypeInstance) => {
             preHandler: authHandler,
             schema: {
                 tags: ['projects'],
+                security: [{ BearerAuth: [] }],
                 description: 'Create project',
                 body: projectRequest,
                 params: userParms,
@@ -46,6 +47,7 @@ export const projectController = (app: FastifyTypeInstance) => {
             preHandler: authHandler,
             schema: {
                 tags: ['projects'],
+                security: [{ BearerAuth: [] }],
                 description: 'Find project by id',
                 params: projectParms,
                 response: {
@@ -69,6 +71,7 @@ export const projectController = (app: FastifyTypeInstance) => {
             preHandler: authHandler,
             schema: {
                 tags: ['projects'],
+                security: [{ BearerAuth: [] }],
                 description: 'Find all projects by user',
                 params: userParms,
                 response: {
@@ -92,6 +95,7 @@ export const projectController = (app: FastifyTypeInstance) => {
             preHandler: authHandler,
             schema: {
                 tags: ['projects'],
+                security: [{ BearerAuth: [] }],
                 description: 'Update project',
                 params: projectParms,
                 body: projectRequest,
