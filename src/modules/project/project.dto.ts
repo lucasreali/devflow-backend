@@ -16,7 +16,6 @@ export const projectResponse = z.object({
 });
 
 export const projectParms = z.object({
-    userId: z.uuid(),
     projectId: z.uuid(),
 });
 

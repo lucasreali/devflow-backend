@@ -16,7 +16,7 @@ import { projectService } from './project.service';
 
 export const projectController = (app: FastifyTypeInstance) => {
     app.post(
-        '/:userId/projects',
+        '/projects',
         {
             preHandler: authHandler,
             schema: {
@@ -24,7 +24,6 @@ export const projectController = (app: FastifyTypeInstance) => {
                 security: [{ BearerAuth: [] }],
                 description: 'Create project',
                 body: projectRequest,
-                params: userParms,
                 response: {
                     201: projectResponse,
                     409: errorResponseSchema,
@@ -34,7 +33,7 @@ export const projectController = (app: FastifyTypeInstance) => {
         },
         async (req, res) => {
             const project = req.body;
-            const { userId } = req.params;
+            const userId = req.user?.id as string;
 
             const newProject = await projectService.create(project, userId);
             return res.status(201).send(newProject);
@@ -42,7 +41,7 @@ export const projectController = (app: FastifyTypeInstance) => {
     );
 
     app.get(
-        '/:userId/project/:projectId',
+        '/project/:projectId',
         {
             preHandler: authHandler,
             schema: {
@@ -58,7 +57,8 @@ export const projectController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { userId, projectId } = req.params;
+            const { projectId } = req.params;
+            const userId = req.user?.id as string;
             const project = await projectService.findById(projectId, userId);
 
             return rep.status(200).send(project);
@@ -66,14 +66,13 @@ export const projectController = (app: FastifyTypeInstance) => {
     );
 
     app.get(
-        '/:userId/projects',
+        '/projects',
         {
             preHandler: authHandler,
             schema: {
                 tags: ['projects'],
                 security: [{ BearerAuth: [] }],
                 description: 'Find all projects by user',
-                params: userParms,
                 response: {
                     200: projectArrayResponse,
                     404: errorResponseSchema,
@@ -82,7 +81,7 @@ export const projectController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { userId } = req.params;
+            const userId = req.user?.id as string;
             const projects = await projectService.findAllByUser(userId);
 
             return rep.status(200).send(projects);
@@ -90,7 +89,7 @@ export const projectController = (app: FastifyTypeInstance) => {
     );
 
     app.patch(
-        '/:userId/projects/:projectId',
+        '/projects/:projectId',
         {
             preHandler: authHandler,
             schema: {
@@ -107,7 +106,8 @@ export const projectController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { userId, projectId } = req.params;
+            const { projectId } = req.params;
+            const userId = req.user?.id as string;
             const project = req.body;
 
             const updatedProject = await projectService.update(
@@ -120,7 +120,7 @@ export const projectController = (app: FastifyTypeInstance) => {
     );
 
     app.delete(
-        '/:userId/projects/:projectId',
+        '/projects/:projectId',
         {
             preHandler: authHandler,
             schema: {
@@ -136,7 +136,8 @@ export const projectController = (app: FastifyTypeInstance) => {
             },
         },
         async (req, rep) => {
-            const { userId, projectId } = req.params;
+            const { projectId } = req.params;
+            const userId = req.user?.id as string;
             await projectService.delete(projectId, userId);
             return rep.status(200).send({
                 message: 'Project deleted successfully',

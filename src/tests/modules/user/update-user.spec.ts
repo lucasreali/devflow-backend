@@ -49,7 +49,7 @@ describe('Update User', () => {
         };
 
         const updateRes = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/${created.id}`,
             payload: updatePayload,
         });
@@ -67,7 +67,7 @@ describe('Update User', () => {
 
     it('404 - should return not found when id does not exist', async () => {
         const res = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/00000000-0000-0000-0000-000000000000`,
             payload: { name: 'No One' },
         });
@@ -79,7 +79,7 @@ describe('Update User', () => {
 
     it('422 - should fail when id is not a valid uuid', async () => {
         const res = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/not-a-uuid`,
             payload: { name: 'Invalid' },
         });
@@ -100,7 +100,7 @@ describe('Update User', () => {
         const created = JSON.parse(createRes.payload);
 
         const res = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/${created.id}`,
             payload: { email: 'invalid-email' },
         });
@@ -121,7 +121,7 @@ describe('Update User', () => {
         const created = JSON.parse(createRes.payload);
 
         const res = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/${created.id}`,
             payload: { password: '123' },
         });
@@ -145,7 +145,7 @@ describe('Update User', () => {
         const created = JSON.parse(createRes.payload);
 
         const res = await app.inject({
-            method: 'PUT',
+            method: 'PATCH',
             url: `/api/users/${created.id}`,
             payload: { password: 'newpass123' },
         });

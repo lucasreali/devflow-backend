@@ -6,5 +6,5 @@ import { FastifyTypeInstance } from './types';
 export const routes = (app: FastifyTypeInstance) => {
     app.register(userController);
     app.register(authController, { prefix: '/auth' });
-    app.register(projectController, { prefix: '/user' });
+    app.register(projectController);
 };

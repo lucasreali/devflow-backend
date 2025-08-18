@@ -10,7 +10,6 @@ import { userData } from '../../factories/user.factory';
 describe('Create Project', () => {
     let app: FastifyTypeInstance;
     let authToken: string;
-    let userId: string;
 
     beforeEach(async () => {
         process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
@@ -28,8 +27,6 @@ describe('Create Project', () => {
         });
 
         expect(createUserResponse.statusCode).toBe(201);
-        const createdUser = JSON.parse(createUserResponse.payload);
-        userId = createdUser.id;
 
         const loginResponse = await app.inject({
             method: 'POST',
@@ -56,7 +53,7 @@ describe('Create Project', () => {
 
         const response = await app.inject({
             method: 'POST',
-            url: `/api/user/${userId}/projects`,
+            url: `/api/projects`,
             headers: {
                 authorization: `Bearer ${authToken}`,
             },
@@ -79,7 +76,7 @@ describe('Create Project', () => {
 
         const response = await app.inject({
             method: 'POST',
-            url: `/api/user/${userId}/projects`,
+            url: `/api/projects`,
             headers: {
                 authorization: `Bearer ${authToken}`,
             },
@@ -102,7 +99,7 @@ describe('Create Project', () => {
 
         const response = await app.inject({
             method: 'POST',
-            url: `/api/user/${userId}/projects`,
+            url: `/api/projects`,
             headers: {
                 authorization: `Bearer ${authToken}`,
             },
@@ -119,24 +116,7 @@ describe('Create Project', () => {
 
         const response = await app.inject({
             method: 'POST',
-            url: `/api/user/${userId}/projects`,
-            headers: {
-                authorization: `Bearer ${authToken}`,
-            },
-            payload: data,
-        });
-
-        expect(response.statusCode).toBe(422);
-        const body = JSON.parse(response.payload);
-        expect(body.message).toBe('Validation failed');
-    });
-
-    it('422 - should fail with invalid userId in params', async () => {
-        const data = projectData();
-
-        const response = await app.inject({
-            method: 'POST',
-            url: '/api/user/invalid-uuid/projects',
+            url: `/api/projects`,
             headers: {
                 authorization: `Bearer ${authToken}`,
             },
