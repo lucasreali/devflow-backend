@@ -39,7 +39,7 @@ export const projectService = {
         );
         if (!updatedProject) {
             throw new NotFoundError(
-                'Project not found or you do not have permission to update it'
+                'User does not have permission to update this project'
             );
         }
         return updatedProject;
@@ -49,7 +49,7 @@ export const projectService = {
         const result = await projectRepository.delete(projectId, userId);
         if (result.length === 0) {
             throw new NotFoundError(
-                'Project not found or you do not have permission to delete it'
+                'User does not have permission to delete this project'
             );
         }
         return;

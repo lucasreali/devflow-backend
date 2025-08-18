@@ -70,7 +70,7 @@ export const userController = (app: FastifyTypeInstance) => {
         }
     );
 
-    app.put(
+    app.patch(
         '/users/:userId',
         {
             schema: {

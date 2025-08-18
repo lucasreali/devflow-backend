@@ -10,6 +10,7 @@ import {
     projectParms,
     projectRequest,
     projectResponse,
+    projectUpdateRequest,
 } from './project.dto';
 import { projectService } from './project.service';
 
@@ -34,7 +35,6 @@ export const projectController = (app: FastifyTypeInstance) => {
         async (req, res) => {
             const project = req.body;
             const { userId } = req.params;
-            console.log('Creating project for user:', userId);
 
             const newProject = await projectService.create(project, userId);
             return res.status(201).send(newProject);
@@ -89,7 +89,7 @@ export const projectController = (app: FastifyTypeInstance) => {
         }
     );
 
-    app.put(
+    app.patch(
         '/:userId/projects/:projectId',
         {
             preHandler: authHandler,
@@ -98,7 +98,7 @@ export const projectController = (app: FastifyTypeInstance) => {
                 security: [{ BearerAuth: [] }],
                 description: 'Update project',
                 params: projectParms,
-                body: projectRequest,
+                body: projectUpdateRequest,
                 response: {
                     200: projectResponse,
                     404: errorResponseSchema,
@@ -127,6 +127,7 @@ export const projectController = (app: FastifyTypeInstance) => {
                 tags: ['projects'],
                 description: 'Delete project',
                 params: projectParms,
+                security: [{ BearerAuth: [] }],
                 response: {
                     200: successResponseSchema,
                     404: errorResponseSchema,
