@@ -1,5 +1,5 @@
+import { eq } from 'drizzle-orm';
 import { db } from '../../../core/database/db';
-// Make sure to import or define 'columns' from your schema
 import { columns } from '../../../core/database/schema';
 
 export const columnRepository = {
@@ -12,5 +12,28 @@ export const columnRepository = {
                 order: data.order,
             })
             .returning();
+    },
+
+    async findByProjectId(projectId: string) {
+        return await db
+            .select()
+            .from(columns)
+            .where(eq(columns.projectId, projectId));
+    },
+
+    async findById(id: string) {
+        return await db.select().from(columns).where(eq(columns.id, id));
+    },
+
+    async update(id: string, name: string) {
+        return await db
+            .update(columns)
+            .set({ name })
+            .where(eq(columns.id, id))
+            .returning();
+    },
+
+    async delete(id: string) {
+        return await db.delete(columns).where(eq(columns.id, id)).returning();
     },
 };
