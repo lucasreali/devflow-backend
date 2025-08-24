@@ -56,3 +56,17 @@ export const columns = pgTable('columns', {
         .$onUpdateFn(() => new Date())
         .notNull(),
 });
+
+export const cards = pgTable('cards', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    columnId: uuid('column_id')
+        .notNull()
+        .references(() => columns.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    order: integer('order').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+        .defaultNow()
+        .$onUpdateFn(() => new Date())
+        .notNull(),
+});
